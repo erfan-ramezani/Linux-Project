@@ -4,7 +4,7 @@ This repository contains a complete Linux project (sections 01–14) with step-b
 Each section is documented separately in the `docs/` folder.
 
 ## Sections
-1. [01 – Installation](docs/01_installation.md)
+1. [01 – Installation](01_installation.md)
 2. [02 – Partitioning](docs/02_partitioning.md)
 3. [03 – Hardening with Lynis](docs/03_hardening.md)
 4. [04 – Nginx + WordPress + TLS](docs/04_nginx_wordpress.md)
