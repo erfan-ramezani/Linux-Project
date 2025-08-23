@@ -36,7 +36,7 @@ sudo apt install -y nginx apache2-utils certbot python3-certbot-nginx
 
 # Email tools (lightweight SMTP client)
 sudo apt install -y msmtp-mta mailutils
-
+---
 ## Step 2 — Configure Outgoing Email (msmtp)
 sudo tee /etc/msmtprc >/dev/null <<'EOF'
 # /etc/msmtprc (system-wide)
@@ -56,7 +56,7 @@ EOF
 
 sudo chmod 600 /etc/msmtprc
 sudo touch /var/log/msmtp.log && sudo chmod 640 /var/log/msmtp.log
-
+---
 ## Step 3 — Prepare Report Site Structure
 sudo mkdir -p /var/www/trivy/reports
 sudo chown -R www-data:www-data /var/www/trivy
