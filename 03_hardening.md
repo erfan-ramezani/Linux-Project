@@ -1,5 +1,5 @@
 #  03 – Hardening with Lynis
-پ
+
 ## Requirements
 - Install **Lynis** for auditing.  
 - Reach a security score of **> 75**.  
