@@ -1,38 +1,42 @@
-
----
-
-## 📂 docs/07_backup_strategy.md
-```markdown
-# 07 – Backup Strategy (DB, WordPress files, Offsite)
+# 07 – Backup Strategy (Database, WordPress files, Offsite)
 
 ## Requirements
-- Backup database (MariaDB/MySQL)
-- Backup WordPress files under `/var/www/example.com`
+- Backup WordPress database (`wpdb`)
+- Backup WordPress files (`/var/www/example.com`)
 - Store backups locally in `/backup`
-- Sync backups offsite (e.g. remote server with rsync + SSH)
+- Sync backups to offsite server for disaster recovery
+- Automate the process with `cron`
 
 ## Steps
-1. **Database backup**  
-   Use `mysqldump` to export databases daily.  
-2. **WordPress files backup**  
-   Compress `/var/www/example.com` directory.  
-3. **Local storage**  
-   Store backups in `/backup` with timestamped filenames.  
-4. **Offsite sync**  
-   Use `rsync` or `scp` to copy to remote backup server.  
-5. **Automation**  
-   Add cron job for daily backups.  
+1. **Database Backup**
+   - Use `mysqldump` to export WordPress database.  
+   - Store backup file in `/backup` with a timestamped filename.  
+
+2. **Files Backup**
+   - Compress WordPress directory (`/var/www/example.com`) into a `.tar.gz` archive.  
+   - Store archive in `/backup`.  
+
+3. **Offsite Backup**
+   - Use `rsync` or `scp` to copy backups to a remote server.  
+   - Requires SSH key authentication for automation.  
+
+4. **Automation**
+   - Create a cron job to run daily backups at 2 AM.  
+   - Ensure backup rotation or cleanup to avoid disk full issues.  
 
 ## Commands
 ```bash
+# Create local backup directory
+sudo mkdir -p /backup
+
 # Database backup
-sudo mysqldump -u root -p wpdb > /backup/wpdb_$(date +%F).sql
+mysqldump -u root -pPASSWORD wpdb > /backup/wpdb_$(date +%F).sql
 
 # Files backup
-sudo tar -czf /backup/wpfiles_$(date +%F).tar.gz /var/www/example.com
+tar -czf /backup/wpfiles_$(date +%F).tar.gz /var/www/example.com
 
-# Offsite sync
+# Offsite sync (replace user@remote-server)
 rsync -avz /backup/ user@backupserver:/remote/backup/
 
-# Example cron job (daily at 2AM)
-echo "0 2 * * * root mysqldump -u root -pPASSWORD wpdb > /backup/wpdb_\$(date +\%F).sql && tar -czf /backup/wpfiles_\$(date +\%F).tar.gz /var/www/example.com && rsync -avz /backup/ user@backupserver:/remote/backup/" | sudo tee /etc/cron.d/wpbackup
+# Cron job (daily 2 AM)
+echo "0 2
