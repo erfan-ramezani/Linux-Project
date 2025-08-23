@@ -1,7 +1,5 @@
-# 02 – Partitioning (Verification & Expansion)
-```markdown
-# 03 – Hardening with Lynis (> 75 Score)
-
+#  03 – Hardening with Lynis
+پ
 ## Requirements
 - Install **Lynis** for auditing.  
 - Reach a security score of **> 75**.  
