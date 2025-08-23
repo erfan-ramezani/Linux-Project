@@ -20,7 +20,7 @@ Reports are published on a **protected HTTPS site** (Basic Auth + Let's Encrypt)
 
 ---
 
-##  Install Dependencies
+##  Install Dependencies and Go
 ```bash
 sudo apt update
 # Trivy (official repo)
