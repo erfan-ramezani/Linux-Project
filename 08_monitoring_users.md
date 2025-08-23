@@ -1,33 +1,23 @@
-08 – Monitoring & Restricted User
-Requirements
+# 08 – Monitoring & Restricted User
 
+## Requirements
 Create a restricted user (monitoring) with no root privileges
-
 User can only run ls and cd
-
 Home directory with limited permissions
 
-Steps
+## Steps
+1.Create restricted user
+   No sudo access
+   Home directory with limited permissions
+2.Configure restricted shell
+   Use rbash to restrict available commands
+3.Set allowed commands
+   Only ls and cd are allowed
+4.Restrict PATH and permissions
+   Ensure the user cannot run other commands or access other directories  
 
-Create restricted user
-
-No sudo access
-
-Home directory with limited permissions
-
-Configure restricted shell
-
-Use rbash to restrict available commands
-
-Set allowed commands
-
-Only ls and cd are allowed
-
-Restrict PATH and permissions
-
-Ensure the user cannot run other commands or access other directories
-
-Commands
+## Commands
+```bash
 # Create restricted user
 sudo adduser monitoring
 sudo usermod -s /bin/rbash monitoring
