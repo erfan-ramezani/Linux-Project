@@ -1,40 +1,48 @@
-# 08 – Monitoring & Restricted User
+08 – Monitoring & Restricted User
+Requirements
 
-## Requirements
-- Create a restricted user (no root privileges)
-- Monitor system resources and services
-- Send alerts if resource usage is high or service fails
+Create a restricted user (monitoring) with no root privileges
 
-## Steps
-1. **Create restricted user**  
-   - No sudo access  
-   - Home directory with limited permissions  
-2. **Monitoring tools**  
-   Install `htop`, `glances`, or configure `monit`.  
-3. **Service monitoring**  
-   Use `monit` to watch Nginx, MariaDB, SSH, etc.  
-4. **Alerts**  
-   Configure email notifications for failures.  
+User can only run ls and cd
 
-## Commands
-```bash
+Home directory with limited permissions
+
+Steps
+
+Create restricted user
+
+No sudo access
+
+Home directory with limited permissions
+
+Configure restricted shell
+
+Use rbash to restrict available commands
+
+Set allowed commands
+
+Only ls and cd are allowed
+
+Restrict PATH and permissions
+
+Ensure the user cannot run other commands or access other directories
+
+Commands
 # Create restricted user
-sudo adduser restricteduser
-sudo usermod -L restricteduser  # lock password login
-sudo usermod -s /bin/false restricteduser  # disable shell login
+sudo adduser monitoring
+sudo usermod -s /bin/rbash monitoring
 
-# Install monitoring tools
-sudo apt install -y htop glances monit
+# Create directory for allowed commands
+sudo mkdir /home/monitoring/bin
+sudo chown monitoring:monitoring /home/monitoring/bin
+sudo ln -s /bin/ls /home/monitoring/bin/ls
+# cd works as a shell builtin in rbash
 
-# Configure monit (example for nginx)
-sudo tee /etc/monit/conf.d/nginx <<'EOF'
-check process nginx with pidfile /run/nginx.pid
-  start program = "/bin/systemctl start nginx"
-  stop program  = "/bin/systemctl stop nginx"
-  if failed port 80 protocol http then alert
-EOF
+# Restrict PATH and enable restricted mode
+echo 'PATH=$HOME/bin' >> /home/monitoring/.bash_profile
+echo 'export PATH' >> /home/monitoring/.bash_profile
+echo 'set -r' >> /home/monitoring/.bash_profile
 
-# Reload monit
-sudo systemctl enable --now monit
-sudo monit reload
-sudo monit status
+# Set home directory permissions
+chmod 700 /home/monitoring
+chmod 700 /home/monitoring/bin
