@@ -1,52 +1,58 @@
-
----
-
-## 📂 docs/02_partitioning.md
-```markdown
-# 02 – Partitioning (Verification)
+# 02 – Partitioning (Verification & Expansion)
 
 ## Requirements
-- Ensure **LVM** is configured correctly with Volume Group `vg0`
-- Verify Logical Volumes exist:  
-  - `lv_root` → mounted at `/`  
-  - `lv_var` → mounted at `/var`  
-- Confirm `/boot` is a separate partition  
+- Logical Volumes `lv_root` (mount `/`) and `lv_var` (mount `/var`) must exist under `vg0`.
+- `/boot` partition must be separate and not on LVM.
+- Ability to create or resize Logical Volumes.
+- Sufficient disk space for expansion or new volumes.
 
 ## Steps
-1. **Check block devices**  
-   Use `lsblk` to view device hierarchy and mount points.  
+1. **Inspect current layout**  
+   Use `lsblk` and `vgs`, `lvs` to understand current setup (partitions, VG, LV).
 
-2. **Verify LVM setup**  
-   - Confirm `vg0` exists with required LVs.  
-   - Check which devices back the LVs.  
+2. **Verify mounts and filesystems**  
+   Confirm that `/`, `/var`, and `/boot` are mounted correctly and have ext4 filesystems.
 
-3. **Check filesystem types and UUIDs**  
-   Use `blkid` to verify ext4 and UUIDs.  
+3. **Resize or extend partitions (optional)**  
+   If needed, extend `lv_root` or `lv_var`, or create new LVs (e.g., for `/backup`).
 
-4. **Ensure proper mounts**  
-   - `/` and `/var` should be separate.  
-   - `/boot` must not be under LVM.  
+4. **Test changes before rebooting**  
+   Temporarily mount new or extended volumes to check everything works (e.g., `/mnt/temp`).
 
-5. **Review fstab**  
-   Ensure persistence across reboots.  
+5. **Permanently configure mounts**  
+   Update `/etc/fstab` with correct UUIDs or device paths so mounts persist across reboots.
 
 ## Commands
 ```bash
-# Check block device hierarchy
+# Inspect block device layout
 lsblk -f
 
-# Verify Volume Group and LVs
+# Check VG and LVs
 sudo vgs
 sudo lvs -a -o +devices
 
-# Check filesystem UUIDs
+# Check UUIDs and filesystem types
 sudo blkid
 
-# Check current mounts
-mount | egrep "(/ |/var |/boot)"
+# Check current mounts and usage
+df -hT
 
-# Show disk usage
-df -h
+# Example: Extend /var by 15G
+sudo lvextend -L +15G /dev/vg0/lv_var
+sudo resize2fs /dev/vg0/lv_var
 
-# Example /etc/fstab entries
-cat /etc/fstab
+# Example: Create new LV for /backup (20G)
+sudo lvcreate -L 20G -n lv_backup vg0
+sudo mkfs.ext4 /dev/vg0/lv_backup
+sudo mkdir -p /backup
+sudo mount /dev/vg0/lv_backup /backup
+
+# Confirm new mount
+df -hT | grep backup
+
+# Add to /etc/fstab using UUID (recommended)
+UUID=$(sudo blkid -s UUID -o value /dev/vg0/lv_backup)
+echo "UUID=${UUID} /backup ext4 defaults 0 2" | sudo tee -a /etc/fstab
+
+# Test fstab entries
+sudo mount -a
