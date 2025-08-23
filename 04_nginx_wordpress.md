@@ -1,8 +1,3 @@
-
----
-
-## 📂 docs/04_nginx_wordpress.md
-```markdown
 # 04 – Nginx + WordPress + TLS + Subdomain
 
 ## Requirements
