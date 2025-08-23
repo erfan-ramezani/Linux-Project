@@ -1,7 +1,4 @@
-
----
-
-### 📂 03 – Hardening with Lynis
+# 02 – Partitioning (Verification & Expansion)
 ```markdown
 # 03 – Hardening with Lynis (> 75 Score)
 
