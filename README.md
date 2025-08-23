@@ -1,4 +1,4 @@
-# Linux_Project
+# Linux-Project
 
 This repository contains a complete Linux project (sections 01–14) with step-by-step solutions.  
 Each section is documented separately in the `docs/` folder.
