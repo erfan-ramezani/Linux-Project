@@ -15,6 +15,6 @@ Each section is documented separately in the `docs/` folder.
 9. [09 – Security Tests](09_security_tests.md)
 10. [10 – Filesystem Security](10_filesystem_security.md)
 11. [11 – Cron & Automation](11_cron_automation.md)
-12. [12 – Port Scan Site](12_Automated Port Scan & Secure Report Site.md)
+12. [12_Automated Port Scan & Secure Report Site.md](12_Automated Port Scan & Secure Report Site.md)
 13. [13 – Trivy Scanner](13_trivy_scanner.md)
 14. [14 – Command Logging & Real-Time Alerts](14_command_logging.md)
