@@ -1,6 +1,6 @@
 # Linux-Project
 
-This repository contains a complete Linux project (sections 01–14) with step-by-step solutions.  
+This repository contains a complete Linux project (sections 01–13) with step-by-step solutions.  
 Each section is documented separately in folder.
 
 ## Sections
