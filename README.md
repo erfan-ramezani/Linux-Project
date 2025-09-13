@@ -17,4 +17,4 @@ Each section is documented separately in folder.
 11. [11 – Cron & Automation](11_cron_automation.md)
 12. [12 – Port Scan Site](12_port_scan.md)
 13. [13 – Trivy Scanner](13_trivy_scanner.md)
-14. [14 – Command Logging & Real-Time Alerts](14_command_logging.md)
+
